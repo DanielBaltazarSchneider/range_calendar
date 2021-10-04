@@ -1,7 +1,7 @@
 name: range_calendar
 description: The range_calendar package has a calendar with daily, weekly and monthly selection option. Just insert a Map<DateTime, List<Widgets>> to perform displaying and filtering events.
-version: 0.0.1
-homepage:
+version: 0.0.1-dev.1
+homepage: https://github.com/DanielBaltazarSchneider/range_calendar
 
 environment:
   sdk: ">=2.12.0 <3.0.0"

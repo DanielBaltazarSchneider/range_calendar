@@ -1,4 +1,4 @@
-## 0.0.1 - 03/10/2021
+## 0.0.1-dev.1 - 03/10/2021
 
 * Allows selection of a day;
 * Allows selection of a week;
