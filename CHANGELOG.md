@@ -4,3 +4,8 @@
 * Allows selection of a week;
 * Allows selection of the entire month.
 * Allows you to display a list of filtered widgets.
+
+## 0.0.2-dev.1 - 04/10/2021
+
+* Added README.md 
+* Added CAHNGELOG.md
