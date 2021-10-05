@@ -9,3 +9,9 @@
 
 * Added README.md 
 * Added CAHNGELOG.md
+
+## 0.0.3-dev.1 - 05/10/2021
+
+* Added option to rename months
+* Added option to rename weeks
+* Added customizations
