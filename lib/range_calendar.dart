@@ -6,44 +6,65 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class RangeCalendar extends StatefulWidget {
-  RangeCalendar({
+  const RangeCalendar({
     Key? key,
     required this.onDateSelected,
     required this.onTapRange,
-    this.colorCircleDaySelected = Colors.green,
+    this.backgroundColorCircleDaySelected = Colors.green,
     this.colorTextSelected = Colors.black,
-    this.colorDayNotRanged = Colors.white,
-    this.colorDayIsRanged = const Color(0xffD4EFDF),
-    this.colorPointerEvent = Colors.red,
-    this.colorIconSelected = Colors.green,
-    this.colorIconsNotSelected = const Color(0xffD4EFDF),
+    this.backgroundColorDayNotRanged = Colors.white,
+    this.backgroundColorDayIsRanged = const Color(0xffDCDCDC),
+    this.backgroundColorPointerEvent = Colors.red,
+    this.colorIconRangeSelected = Colors.green,
+    this.colorIconsRangeNotSelected = const Color(0xffDCDCDC),
     this.events = const {},
     this.titleListEvents = const SizedBox(),
+    this.colorLabelWeekday = const Color(0xff9E9E9E),
+    this.listLabelWeekday = const ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
+    this.listOfMonthsOfTheYear = const [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    this.viewYerOnMonthName = true,
   }) : super(key: key);
-  Color colorCircleDaySelected;
-  Color colorTextSelected;
-  Color colorDayNotRanged;
-  Color colorDayIsRanged;
-  Color colorPointerEvent;
-  Function onDateSelected;
-  Function onTapRange;
-  Map<DateTime, List<Widget>> events;
-  Widget titleListEvents;
-  Color colorIconSelected;
-  Color colorIconsNotSelected;
+  final Color backgroundColorCircleDaySelected;
+  final Color colorTextSelected;
+  final Color backgroundColorDayNotRanged;
+  final Color backgroundColorDayIsRanged;
+  final Color backgroundColorPointerEvent;
+  final Function onDateSelected;
+  final Function onTapRange;
+  final Map<DateTime, List<Widget>> events;
+  final Widget titleListEvents;
+  final Color colorIconRangeSelected;
+  final Color colorIconsRangeNotSelected;
+  final List<String> listLabelWeekday;
+  final Color colorLabelWeekday;
+  final List<String> listOfMonthsOfTheYear;
+  final bool viewYerOnMonthName;
 
   @override
   _RangeCalendarState createState() => _RangeCalendarState();
 }
 
 class _RangeCalendarState extends State<RangeCalendar> {
-  CalendarRangeSelected? rangeSelected = CalendarRangeSelected.day;
+  CalendarRangeSelected rangeSelected = CalendarRangeSelected.day;
 
   List<List<DayCalendar?>> listDayCalendar = [];
 
   DateTime dateSelected = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
-  DateTime viewMonth = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  DateTime viewMonth = DateTime(DateTime.now().year, DateTime.now().month, 15);
 
   List<Widget> listWidgetsEvents = [];
 
@@ -71,7 +92,7 @@ class _RangeCalendarState extends State<RangeCalendar> {
               style: TextStyle(
                 fontSize: width * 0.035,
                 fontWeight: FontWeight.bold,
-                color: Color(0xff9E9E9E),
+                color: widget.colorLabelWeekday,
               ),
             ),
           ),
@@ -84,9 +105,9 @@ class _RangeCalendarState extends State<RangeCalendar> {
             decoration: BoxDecoration(
               color: date?.selected ?? false
                   ? rangeSelected == CalendarRangeSelected.day
-                      ? widget.colorDayNotRanged
-                      : widget.colorDayIsRanged
-                  : widget.colorDayNotRanged,
+                      ? widget.backgroundColorDayNotRanged
+                      : widget.backgroundColorDayIsRanged
+                  : widget.backgroundColorDayNotRanged,
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(date!.isEndRange ? 50 : 0),
                 bottomRight: Radius.circular(date.isEndRange ? 50 : 0),
@@ -123,7 +144,7 @@ class _RangeCalendarState extends State<RangeCalendar> {
                                       child: Icon(
                                         Icons.circle,
                                         size: 4.2,
-                                        color: widget.colorPointerEvent,
+                                        color: widget.backgroundColorPointerEvent,
                                       ),
                                     ),
                                 ],
@@ -131,7 +152,7 @@ class _RangeCalendarState extends State<RangeCalendar> {
                           ],
                         ),
                         maxRadius: width * 0.04,
-                        backgroundColor: date.isDaySelected ? widget.colorCircleDaySelected : widget.colorDayIsRanged,
+                        backgroundColor: date.isDaySelected ? widget.backgroundColorCircleDaySelected : widget.backgroundColorDayIsRanged,
                       )
                     : CircleAvatar(
                         child: Column(
@@ -155,7 +176,7 @@ class _RangeCalendarState extends State<RangeCalendar> {
                                       child: Icon(
                                         Icons.circle,
                                         size: 4.2,
-                                        color: date.isOldMonth ? Color(0xff9E9E9E) : widget.colorPointerEvent,
+                                        color: date.isOldMonth ? Color(0xff9E9E9E) : widget.backgroundColorPointerEvent,
                                       ),
                                     ),
                                 ],
@@ -163,7 +184,7 @@ class _RangeCalendarState extends State<RangeCalendar> {
                           ],
                         ),
                         maxRadius: width * 0.04,
-                        backgroundColor: widget.colorDayNotRanged,
+                        backgroundColor: widget.backgroundColorDayNotRanged,
                       ),
               ),
             ),
@@ -191,7 +212,9 @@ class _RangeCalendarState extends State<RangeCalendar> {
                       ),
                     ),
                     Text(
-                      listDayCalendar.length > 0 ? "${setNameMonth(listDayCalendar[1][0]?.day.month ?? 0)}  ${listDayCalendar[1][0]?.day.year}" : "",
+                      listDayCalendar.length > 0
+                          ? "${setNameMonth(listDayCalendar[1][0]?.day.month ?? 0)} " + " ${widget.viewYerOnMonthName ? listDayCalendar[1][0]?.day.year : ""}"
+                          : "",
                       style: TextStyle(fontSize: width * 0.045, fontWeight: FontWeight.bold),
                     ),
                     InkWell(
@@ -223,13 +246,9 @@ class _RangeCalendarState extends State<RangeCalendar> {
                     _rowWeek(
                       child: Row(
                         children: [
-                          _labelDayWeek(label: "DOM"),
-                          _labelDayWeek(label: "SEG"),
-                          _labelDayWeek(label: "TER"),
-                          _labelDayWeek(label: "QUA"),
-                          _labelDayWeek(label: "QUI"),
-                          _labelDayWeek(label: "SEX"),
-                          _labelDayWeek(label: "SAB"),
+                          for (int i = 0; i < 7; i++) ...[
+                            _labelDayWeek(label: "${widget.listLabelWeekday[i]}"),
+                          ]
                         ],
                       ),
                     ),
@@ -256,7 +275,7 @@ class _RangeCalendarState extends State<RangeCalendar> {
                             padding: EdgeInsets.all(width * 0.02),
                             child: Icon(
                               MdiIcons.calendar,
-                              color: rangeSelected == CalendarRangeSelected.day ? widget.colorIconSelected : widget.colorIconsNotSelected,
+                              color: rangeSelected == CalendarRangeSelected.day ? widget.colorIconRangeSelected : widget.colorIconsRangeNotSelected,
                             ),
                           ),
                         ),
@@ -269,7 +288,7 @@ class _RangeCalendarState extends State<RangeCalendar> {
                             padding: EdgeInsets.all(width * 0.02),
                             child: Icon(
                               MdiIcons.calendarWeek,
-                              color: rangeSelected == CalendarRangeSelected.week ? widget.colorIconSelected : widget.colorIconsNotSelected,
+                              color: rangeSelected == CalendarRangeSelected.week ? widget.colorIconRangeSelected : widget.colorIconsRangeNotSelected,
                             ),
                           ),
                         ),
@@ -282,7 +301,7 @@ class _RangeCalendarState extends State<RangeCalendar> {
                             padding: EdgeInsets.all(width * 0.02),
                             child: Icon(
                               MdiIcons.calendarMonth,
-                              color: rangeSelected == CalendarRangeSelected.month ? widget.colorIconSelected : widget.colorIconsNotSelected,
+                              color: rangeSelected == CalendarRangeSelected.month ? widget.colorIconRangeSelected : widget.colorIconsRangeNotSelected,
                             ),
                           ),
                         ),
@@ -306,37 +325,40 @@ class _RangeCalendarState extends State<RangeCalendar> {
     );
   }
 
+  /// returns the name of the month displayed
   String setNameMonth(int month) {
     switch (month) {
       case 1:
-        return "Janeiro";
+        return widget.listOfMonthsOfTheYear[0];
       case 2:
-        return "Fevereiro";
+        return widget.listOfMonthsOfTheYear[1];
       case 3:
-        return "Março";
+        return widget.listOfMonthsOfTheYear[2];
       case 4:
-        return "Abril";
+        return widget.listOfMonthsOfTheYear[3];
       case 5:
-        return "Maio";
+        return widget.listOfMonthsOfTheYear[4];
       case 6:
-        return "Junho";
+        return widget.listOfMonthsOfTheYear[5];
       case 7:
-        return "Julho";
+        return widget.listOfMonthsOfTheYear[6];
       case 8:
-        return "Agosto";
+        return widget.listOfMonthsOfTheYear[7];
       case 9:
-        return "Setembro";
+        return widget.listOfMonthsOfTheYear[8];
       case 10:
-        return "Outubro";
+        return widget.listOfMonthsOfTheYear[9];
       case 11:
-        return "Novembro";
+        return widget.listOfMonthsOfTheYear[10];
       case 12:
-        return "Dezembro";
+        return widget.listOfMonthsOfTheYear[11];
       default:
         return "...";
     }
   }
 
+  /// Creates the calendar with all the dates for the selected month
+  /// Cria o calendário com todas as datas do mês selecionado
   void setCalendarFromDate(DateTime date) {
     listDayCalendar = [];
     int year = date.year;
@@ -346,7 +368,8 @@ class _RangeCalendarState extends State<RangeCalendar> {
 
     List<DayCalendar?> tempWeek = [];
 
-    // Adiciona as datas do mes anterior no início da primeira semana
+    /// Add the dates of the previous month to the beginning of the first week
+    /// Adiciona as datas do mes anterior no início da primeira semana
     if (firstDayWeekMonth < 7) {
       DateTime lastMonth = DateTime(date.year, date.month, 0);
       int daysRemain = lastMonth.day - firstDayWeekMonth + 1;
@@ -355,36 +378,35 @@ class _RangeCalendarState extends State<RangeCalendar> {
           DayCalendar(
               // isEndRange: i == lastMonth.day,
               isDaySelected: (DateTime(lastMonth.year, lastMonth.month, i) == DateTime(dateSelected.year, dateSelected.month, dateSelected.day)),
-              selected: isDaySelected(DateTime(lastMonth.year, lastMonth.month, i)),
+              selected: isDayRangeSelected(DateTime(lastMonth.year, lastMonth.month, i)),
               isOldMonth: true,
               day: DateTime(lastMonth.year, lastMonth.month, i)),
         );
       }
     }
 
-    // Adiciona as datas do mês selecionado
+    /// Adiciona as datas do mês selecionado
+    /// Add the dates of the selected month
     int lastDay = DateTime(date.year, date.month + 1, 0).day;
     for (int i = 1; i <= lastDay; i++) {
       DayCalendar newDayWeek = DayCalendar(
-        // isInitRange: i == 1,
-        // isEndRange: i == lastDay,
         isDaySelected: (DateTime(date.year, date.month, i) == DateTime(dateSelected.year, dateSelected.month, dateSelected.day)),
-        selected: isDaySelected(DateTime(year, month, i)),
+        selected: isDayRangeSelected(DateTime(year, month, i)),
         day: DateTime(year, month, i),
       );
 
       if (i == lastDay) {
         tempWeek.add(newDayWeek);
 
-        // Adiciona as datas do mes seguinte no final da útima semana
+        /// Add the dates of the following month to the end of the last week
+        /// Adiciona as datas do mes seguinte no final da útima semana
         DateTime newMont = DateTime(date.year, date.month + 1, 1);
         int dayWeekLastDay = DateTime(date.year, date.month + 1, 0).weekday == 7 ? 1 : DateTime(date.year, date.month + 1, 0).weekday + 1;
         for (int a = 1; a <= (7 - dayWeekLastDay); a++) {
           tempWeek.add(
             DayCalendar(
-              // isInitRange: a == 1,
               isDaySelected: (DateTime(newMont.year, newMont.month, a) == DateTime(dateSelected.year, dateSelected.month, dateSelected.day)),
-              selected: isDaySelected(DateTime(newMont.year, newMont.month, a)),
+              selected: isDayRangeSelected(DateTime(newMont.year, newMont.month, a)),
               isOldMonth: true,
               day: DateTime(newMont.year, newMont.month, a),
             ),
@@ -405,13 +427,20 @@ class _RangeCalendarState extends State<RangeCalendar> {
     setState(() {});
   }
 
-  bool isDaySelected(DateTime _date) {
+  /// returns true if the date passed as parameter is a date within the selection range
+  /// retorna verdadeiro se a data passada como parametro é uma data dentro do intervalo de seleção
+  bool isDayRangeSelected(DateTime _date) {
+    /// if the selected interval is day
+    /// se o intervalo selecionado é dia
     if (rangeSelected == CalendarRangeSelected.month) {
       if (_date.year == dateSelected.year && _date.month == dateSelected.month) {
         return true;
       }
       return false;
     }
+
+    /// if the selected interval is week
+    /// se o intervalo selecionado é semana
     if (rangeSelected == CalendarRangeSelected.week) {
       int _dayWeek = dateSelected.weekday == 7 ? 1 : dateSelected.weekday + 1;
       DateTime currentDate = DateTime(dateSelected.year, dateSelected.month, dateSelected.day);
@@ -424,6 +453,9 @@ class _RangeCalendarState extends State<RangeCalendar> {
       }
       return false;
     }
+
+    /// if the selected interval is month
+    /// se o intervalo selecionado é mês
     if (rangeSelected == CalendarRangeSelected.day) {
       if (_date.year == dateSelected.year && _date.month == dateSelected.month && _date.day == dateSelected.day) {
         return true;
@@ -432,6 +464,8 @@ class _RangeCalendarState extends State<RangeCalendar> {
     return false;
   }
 
+  /// sets the selected date
+  /// define a data selecionada
   void setDate(DateTime _date) {
     dateSelected = _date;
     viewMonth = _date;
@@ -439,18 +473,24 @@ class _RangeCalendarState extends State<RangeCalendar> {
     listDayCalendar = listDayCalendar;
   }
 
+  /// add a month to the current selected month
+  /// adiciona um mes ao mes atual selecionado
   void addMonth() {
     viewMonth = viewMonth.add(Duration(days: 30));
     setCalendarFromDate(viewMonth);
     listDayCalendar = listDayCalendar;
   }
 
+  /// subtracts one month from current selected month
+  /// subtrai um mês ao mês atual selecionado
   void subtMonth() {
     viewMonth = viewMonth.add(Duration(days: -30));
     setCalendarFromDate(viewMonth);
     listDayCalendar = listDayCalendar;
   }
 
+  /// returns the number of events on the date given as parameter
+  /// retorna o número de eventos na data informada como parametro
   int numEventsOnDay(DateTime? _date) {
     if (widget.events.containsKey(_date)) {
       if (widget.events[_date] != null) {
@@ -463,15 +503,25 @@ class _RangeCalendarState extends State<RangeCalendar> {
     return 0;
   }
 
+  /// filters events according to selected range
+  /// filtra os eventos de acordo com o intervalo selecionado
   void filterEventsRangeCalendar() {
+    /// if the selected interval is day
+    ///  se o intervalo selecionado for dia
     if (rangeSelected == CalendarRangeSelected.day) {
       listWidgetsEvents = filterByDay();
       return;
     }
+
+    /// if the selected interval is week
+    /// se o intervalo selecionado for semana
     if (rangeSelected == CalendarRangeSelected.week) {
       listWidgetsEvents = filterByWeek();
       return;
     }
+
+    /// if the selected interval is day
+    /// se o intervalo selecionado for mês
     if (rangeSelected == CalendarRangeSelected.month) {
       listWidgetsEvents = filterByMonth();
       return;
@@ -479,16 +529,20 @@ class _RangeCalendarState extends State<RangeCalendar> {
     listWidgetsEvents = [];
   }
 
+  /// returns events filtered by day
+  /// retorna os eventos filtrados pelo dia
   List<Widget> filterByDay() {
     List<Widget> _filtered = [];
     widget.events.forEach((key, value) {
-      if (validateDay(key)) {
+      if (dateIsEqualsDateSelected(key)) {
         _filtered.addAll(value);
       }
     });
     return _filtered;
   }
 
+  /// returns events filtered by week
+  /// retorna os eventos filtrados pela semana
   List<Widget> filterByWeek() {
     List<Widget> _filtered = [];
     widget.events.forEach((key, value) {
@@ -499,6 +553,8 @@ class _RangeCalendarState extends State<RangeCalendar> {
     return _filtered;
   }
 
+  /// returns events filtered by month
+  /// retorna os eventos filtrados pelo mês
   List<Widget> filterByMonth() {
     List<Widget> _filtered = [];
     widget.events.forEach((key, value) {
@@ -509,10 +565,14 @@ class _RangeCalendarState extends State<RangeCalendar> {
     return _filtered;
   }
 
-  bool validateDay(DateTime _date) {
+  /// if the date passed as a parameter is equal to the selected date
+  /// se a data passada como parametro é igual a data selecionada
+  bool dateIsEqualsDateSelected(DateTime _date) {
     return DateTime(_date.year, _date.month, _date.day) == dateSelected;
   }
 
+  /// returns true if the date passed by parameter is within the selected week
+  /// retorna verdadeiro se a data passada por parametro está dentro da semana selecionada
   bool validateWeek(DateTime element) {
     DateTime _testDate = DateTime(element.year, element.month, element.day);
     int dayWeek = dateSelected.weekday == 7 ? 1 : dateSelected.weekday + 1;
@@ -525,6 +585,8 @@ class _RangeCalendarState extends State<RangeCalendar> {
     return false;
   }
 
+  /// returns true if the date passed by parameter is within the selected month
+  /// retorna verdadeiro se a data passada por parametro está dentro do mês selecionado
   bool validateMonth(DateTime element) {
     DateTime _testDate = DateTime(element.year, element.month, element.day);
     DateTime _initMonth = DateTime(dateSelected.year, dateSelected.month, 1);
@@ -538,12 +600,16 @@ class _RangeCalendarState extends State<RangeCalendar> {
   }
 }
 
+/// Enum of ranges
+/// Enum dos intervalos
 enum CalendarRangeSelected {
   day,
   week,
   month,
 }
 
+/// Object used to organize data for each date on the calendar
+/// Objeto utilizado para organizar os dados de cada data no calendário
 class DayCalendar {
   DayCalendar({
     required this.selected,
