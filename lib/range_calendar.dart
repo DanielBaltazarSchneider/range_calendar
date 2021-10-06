@@ -45,20 +45,50 @@ class RangeCalendar extends StatefulWidget {
     ],
     this.viewYerOnMonthName = true,
   }) : super(key: key);
+
+  /// Circle background color on selected date
   final Color backgroundColorCircleDaySelected;
+
+  /// Text color in selected range
   final Color colorTextSelected;
+
+  /// Background color of unselected dates
   final Color backgroundColorDayNotRanged;
+
+  /// Background color of selected dates
   final Color backgroundColorDayIsRanged;
+
+  /// Event indicator point color
   final Color backgroundColorPointerEvent;
+
+  /// Function that returns the selected date
   final Function onDateSelected;
+
+  /// Function that returns the selected range
   final Function onTapRange;
+
+  /// Map of events => Map<DateTime, List<Widget>>
   final Map<DateTime, List<Widget>> events;
+
+  /// Title for event list
   final Widget titleListEvents;
+
+  /// Color of selected range icon
   final Color colorIconRangeSelected;
+
+  /// Unselected range icon color
   final Color colorIconsRangeNotSelected;
+
+  /// Default list with days of the week
   final List<String> listLabelWeekday;
+
+  /// Weekday name color
   final Color colorLabelWeekday;
+
+  /// Standard list with the name of the months of the year
   final List<String> listOfMonthsOfTheYear;
+
+  /// Display the current year beside the month
   final bool viewYerOnMonthName;
 
   @override
@@ -77,6 +107,7 @@ class _RangeCalendarState extends State<RangeCalendar> {
 
   List<Widget> listWidgetsEvents = [];
 
+  /// Called when this object is inserted into the tree.
   @override
   void initState() {
     super.initState();
@@ -91,10 +122,12 @@ class _RangeCalendarState extends State<RangeCalendar> {
     setCalendarFromDate(viewMonth);
     filterEventsRangeCalendar();
 
+    /// weekday line widget
     Widget _rowWeek({required Widget child}) => Container(
         padding: EdgeInsets.only(top: width * 0.01, bottom: width * 0.01),
         child: child);
 
+    /// day of the week text widget
     Widget _labelDayWeek({required String label}) => Flexible(
           flex: 1,
           child: Center(
@@ -109,6 +142,7 @@ class _RangeCalendarState extends State<RangeCalendar> {
           ),
         );
 
+    /// weekday widget
     Widget _dayWeek({required bool isSelected, required DayCalendar? date}) =>
         Flexible(
           flex: 1,
@@ -120,17 +154,11 @@ class _RangeCalendarState extends State<RangeCalendar> {
                       ? widget.backgroundColorDayNotRanged
                       : widget.backgroundColorDayIsRanged
                   : widget.backgroundColorDayNotRanged,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(date!.isEndRange ? 50 : 0),
-                bottomRight: Radius.circular(date.isEndRange ? 50 : 0),
-                topLeft: Radius.circular(date.isInitRange ? 50 : 0),
-                bottomLeft: Radius.circular(date.isInitRange ? 50 : 0),
-              ),
             ),
             child: Center(
               child: InkWell(
                 onTap: () {
-                  widget.onDateSelected(date.day);
+                  widget.onDateSelected(date!.day);
                   setDate(date.day);
                 },
                 child: isSelected
@@ -139,7 +167,7 @@ class _RangeCalendarState extends State<RangeCalendar> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "${date.day.day}",
+                              "${date!.day.day}",
                               style: TextStyle(
                                 color: date.isDaySelected
                                     ? Colors.white
@@ -179,7 +207,7 @@ class _RangeCalendarState extends State<RangeCalendar> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "${date.day.day}",
+                              "${date!.day.day}",
                               style: TextStyle(
                                 color: date.isOldMonth
                                     ? Color(0xff9E9E9E)

@@ -15,3 +15,7 @@
 * Added option to rename months
 * Added option to rename weeks
 * Added customizations
+
+## 0.0.4-dev.1 - 06/10/2021
+
+* Added documentation
