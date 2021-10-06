@@ -20,7 +20,15 @@ class RangeCalendar extends StatefulWidget {
     this.events = const {},
     this.titleListEvents = const SizedBox(),
     this.colorLabelWeekday = const Color(0xff9E9E9E),
-    this.listLabelWeekday = const ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
+    this.listLabelWeekday = const [
+      "SUN",
+      "MON",
+      "TUE",
+      "WED",
+      "THU",
+      "FRI",
+      "SAT"
+    ],
     this.listOfMonthsOfTheYear = const [
       "January",
       "February",
@@ -62,7 +70,8 @@ class _RangeCalendarState extends State<RangeCalendar> {
 
   List<List<DayCalendar?>> listDayCalendar = [];
 
-  DateTime dateSelected = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  DateTime dateSelected =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
   DateTime viewMonth = DateTime(DateTime.now().year, DateTime.now().month, 15);
 
@@ -82,7 +91,9 @@ class _RangeCalendarState extends State<RangeCalendar> {
     setCalendarFromDate(viewMonth);
     filterEventsRangeCalendar();
 
-    Widget _rowWeek({required Widget child}) => Container(padding: EdgeInsets.only(top: width * 0.01, bottom: width * 0.01), child: child);
+    Widget _rowWeek({required Widget child}) => Container(
+        padding: EdgeInsets.only(top: width * 0.01, bottom: width * 0.01),
+        child: child);
 
     Widget _labelDayWeek({required String label}) => Flexible(
           flex: 1,
@@ -98,7 +109,8 @@ class _RangeCalendarState extends State<RangeCalendar> {
           ),
         );
 
-    Widget _dayWeek({required bool isSelected, required DayCalendar? date}) => Flexible(
+    Widget _dayWeek({required bool isSelected, required DayCalendar? date}) =>
+        Flexible(
           flex: 1,
           child: Container(
             padding: EdgeInsets.only(top: 3, bottom: 3),
@@ -129,7 +141,9 @@ class _RangeCalendarState extends State<RangeCalendar> {
                             Text(
                               "${date.day.day}",
                               style: TextStyle(
-                                color: date.isDaySelected ? Colors.white : widget.colorTextSelected,
+                                color: date.isDaySelected
+                                    ? Colors.white
+                                    : widget.colorTextSelected,
                                 fontSize: width * 0.035,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -138,13 +152,17 @@ class _RangeCalendarState extends State<RangeCalendar> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  for (int p = 0; p < numEventsOnDay(date.day); p++)
+                                  for (int p = 0;
+                                      p < numEventsOnDay(date.day);
+                                      p++)
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 0.7, right: 0.7),
+                                      padding: const EdgeInsets.only(
+                                          left: 0.7, right: 0.7),
                                       child: Icon(
                                         Icons.circle,
                                         size: 4.2,
-                                        color: widget.backgroundColorPointerEvent,
+                                        color:
+                                            widget.backgroundColorPointerEvent,
                                       ),
                                     ),
                                 ],
@@ -152,7 +170,9 @@ class _RangeCalendarState extends State<RangeCalendar> {
                           ],
                         ),
                         maxRadius: width * 0.04,
-                        backgroundColor: date.isDaySelected ? widget.backgroundColorCircleDaySelected : widget.backgroundColorDayIsRanged,
+                        backgroundColor: date.isDaySelected
+                            ? widget.backgroundColorCircleDaySelected
+                            : widget.backgroundColorDayIsRanged,
                       )
                     : CircleAvatar(
                         child: Column(
@@ -161,7 +181,9 @@ class _RangeCalendarState extends State<RangeCalendar> {
                             Text(
                               "${date.day.day}",
                               style: TextStyle(
-                                color: date.isOldMonth ? Color(0xff9E9E9E) : Colors.black,
+                                color: date.isOldMonth
+                                    ? Color(0xff9E9E9E)
+                                    : Colors.black,
                                 fontSize: width * 0.035,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -170,13 +192,19 @@ class _RangeCalendarState extends State<RangeCalendar> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  for (int p = 0; p < numEventsOnDay(date.day); p++)
+                                  for (int p = 0;
+                                      p < numEventsOnDay(date.day);
+                                      p++)
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 0.7, right: 0.7),
+                                      padding: const EdgeInsets.only(
+                                          left: 0.7, right: 0.7),
                                       child: Icon(
                                         Icons.circle,
                                         size: 4.2,
-                                        color: date.isOldMonth ? Color(0xff9E9E9E) : widget.backgroundColorPointerEvent,
+                                        color: date.isOldMonth
+                                            ? Color(0xff9E9E9E)
+                                            : widget
+                                                .backgroundColorPointerEvent,
                                       ),
                                     ),
                                 ],
@@ -213,9 +241,11 @@ class _RangeCalendarState extends State<RangeCalendar> {
                     ),
                     Text(
                       listDayCalendar.length > 0
-                          ? "${setNameMonth(listDayCalendar[1][0]?.day.month ?? 0)} " + " ${widget.viewYerOnMonthName ? listDayCalendar[1][0]?.day.year : ""}"
+                          ? "${setNameMonth(listDayCalendar[1][0]?.day.month ?? 0)} " +
+                              " ${widget.viewYerOnMonthName ? listDayCalendar[1][0]?.day.year : ""}"
                           : "",
-                      style: TextStyle(fontSize: width * 0.045, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: width * 0.045, fontWeight: FontWeight.bold),
                     ),
                     InkWell(
                       onTap: () => addMonth(),
@@ -247,7 +277,8 @@ class _RangeCalendarState extends State<RangeCalendar> {
                       child: Row(
                         children: [
                           for (int i = 0; i < 7; i++) ...[
-                            _labelDayWeek(label: "${widget.listLabelWeekday[i]}"),
+                            _labelDayWeek(
+                                label: "${widget.listLabelWeekday[i]}"),
                           ]
                         ],
                       ),
@@ -257,7 +288,9 @@ class _RangeCalendarState extends State<RangeCalendar> {
                         child: Row(
                           children: [
                             for (DayCalendar? day in listDayCalendar[i]) ...[
-                              _dayWeek(date: day, isSelected: day?.selected ?? false),
+                              _dayWeek(
+                                  date: day,
+                                  isSelected: day?.selected ?? false),
                             ]
                           ],
                         ),
@@ -275,7 +308,9 @@ class _RangeCalendarState extends State<RangeCalendar> {
                             padding: EdgeInsets.all(width * 0.02),
                             child: Icon(
                               MdiIcons.calendar,
-                              color: rangeSelected == CalendarRangeSelected.day ? widget.colorIconRangeSelected : widget.colorIconsRangeNotSelected,
+                              color: rangeSelected == CalendarRangeSelected.day
+                                  ? widget.colorIconRangeSelected
+                                  : widget.colorIconsRangeNotSelected,
                             ),
                           ),
                         ),
@@ -288,7 +323,9 @@ class _RangeCalendarState extends State<RangeCalendar> {
                             padding: EdgeInsets.all(width * 0.02),
                             child: Icon(
                               MdiIcons.calendarWeek,
-                              color: rangeSelected == CalendarRangeSelected.week ? widget.colorIconRangeSelected : widget.colorIconsRangeNotSelected,
+                              color: rangeSelected == CalendarRangeSelected.week
+                                  ? widget.colorIconRangeSelected
+                                  : widget.colorIconsRangeNotSelected,
                             ),
                           ),
                         ),
@@ -301,7 +338,10 @@ class _RangeCalendarState extends State<RangeCalendar> {
                             padding: EdgeInsets.all(width * 0.02),
                             child: Icon(
                               MdiIcons.calendarMonth,
-                              color: rangeSelected == CalendarRangeSelected.month ? widget.colorIconRangeSelected : widget.colorIconsRangeNotSelected,
+                              color:
+                                  rangeSelected == CalendarRangeSelected.month
+                                      ? widget.colorIconRangeSelected
+                                      : widget.colorIconsRangeNotSelected,
                             ),
                           ),
                         ),
@@ -377,8 +417,11 @@ class _RangeCalendarState extends State<RangeCalendar> {
         tempWeek.add(
           DayCalendar(
               // isEndRange: i == lastMonth.day,
-              isDaySelected: (DateTime(lastMonth.year, lastMonth.month, i) == DateTime(dateSelected.year, dateSelected.month, dateSelected.day)),
-              selected: isDayRangeSelected(DateTime(lastMonth.year, lastMonth.month, i)),
+              isDaySelected: (DateTime(lastMonth.year, lastMonth.month, i) ==
+                  DateTime(
+                      dateSelected.year, dateSelected.month, dateSelected.day)),
+              selected: isDayRangeSelected(
+                  DateTime(lastMonth.year, lastMonth.month, i)),
               isOldMonth: true,
               day: DateTime(lastMonth.year, lastMonth.month, i)),
         );
@@ -390,7 +433,8 @@ class _RangeCalendarState extends State<RangeCalendar> {
     int lastDay = DateTime(date.year, date.month + 1, 0).day;
     for (int i = 1; i <= lastDay; i++) {
       DayCalendar newDayWeek = DayCalendar(
-        isDaySelected: (DateTime(date.year, date.month, i) == DateTime(dateSelected.year, dateSelected.month, dateSelected.day)),
+        isDaySelected: (DateTime(date.year, date.month, i) ==
+            DateTime(dateSelected.year, dateSelected.month, dateSelected.day)),
         selected: isDayRangeSelected(DateTime(year, month, i)),
         day: DateTime(year, month, i),
       );
@@ -401,12 +445,17 @@ class _RangeCalendarState extends State<RangeCalendar> {
         /// Add the dates of the following month to the end of the last week
         /// Adiciona as datas do mes seguinte no final da útima semana
         DateTime newMont = DateTime(date.year, date.month + 1, 1);
-        int dayWeekLastDay = DateTime(date.year, date.month + 1, 0).weekday == 7 ? 1 : DateTime(date.year, date.month + 1, 0).weekday + 1;
+        int dayWeekLastDay = DateTime(date.year, date.month + 1, 0).weekday == 7
+            ? 1
+            : DateTime(date.year, date.month + 1, 0).weekday + 1;
         for (int a = 1; a <= (7 - dayWeekLastDay); a++) {
           tempWeek.add(
             DayCalendar(
-              isDaySelected: (DateTime(newMont.year, newMont.month, a) == DateTime(dateSelected.year, dateSelected.month, dateSelected.day)),
-              selected: isDayRangeSelected(DateTime(newMont.year, newMont.month, a)),
+              isDaySelected: (DateTime(newMont.year, newMont.month, a) ==
+                  DateTime(
+                      dateSelected.year, dateSelected.month, dateSelected.day)),
+              selected:
+                  isDayRangeSelected(DateTime(newMont.year, newMont.month, a)),
               isOldMonth: true,
               day: DateTime(newMont.year, newMont.month, a),
             ),
@@ -433,7 +482,8 @@ class _RangeCalendarState extends State<RangeCalendar> {
     /// if the selected interval is day
     /// se o intervalo selecionado é dia
     if (rangeSelected == CalendarRangeSelected.month) {
-      if (_date.year == dateSelected.year && _date.month == dateSelected.month) {
+      if (_date.year == dateSelected.year &&
+          _date.month == dateSelected.month) {
         return true;
       }
       return false;
@@ -443,12 +493,15 @@ class _RangeCalendarState extends State<RangeCalendar> {
     /// se o intervalo selecionado é semana
     if (rangeSelected == CalendarRangeSelected.week) {
       int _dayWeek = dateSelected.weekday == 7 ? 1 : dateSelected.weekday + 1;
-      DateTime currentDate = DateTime(dateSelected.year, dateSelected.month, dateSelected.day);
+      DateTime currentDate =
+          DateTime(dateSelected.year, dateSelected.month, dateSelected.day);
       DateTime _startWeek = currentDate.add(Duration(days: -_dayWeek));
       DateTime _endWeek = currentDate.add(Duration(days: (6 - _dayWeek)));
 
-      if (_date.isAfter(DateTime(_startWeek.year, _startWeek.month, _startWeek.day, 0, 0, 0)) &&
-          _date.isBefore(DateTime(_endWeek.year, _endWeek.month, _endWeek.day, 23, 59, 99))) {
+      if (_date.isAfter(DateTime(
+              _startWeek.year, _startWeek.month, _startWeek.day, 0, 0, 0)) &&
+          _date.isBefore(DateTime(
+              _endWeek.year, _endWeek.month, _endWeek.day, 23, 59, 99))) {
         return true;
       }
       return false;
@@ -457,7 +510,9 @@ class _RangeCalendarState extends State<RangeCalendar> {
     /// if the selected interval is month
     /// se o intervalo selecionado é mês
     if (rangeSelected == CalendarRangeSelected.day) {
-      if (_date.year == dateSelected.year && _date.month == dateSelected.month && _date.day == dateSelected.day) {
+      if (_date.year == dateSelected.year &&
+          _date.month == dateSelected.month &&
+          _date.day == dateSelected.day) {
         return true;
       }
     }
@@ -578,8 +633,10 @@ class _RangeCalendarState extends State<RangeCalendar> {
     int dayWeek = dateSelected.weekday == 7 ? 1 : dateSelected.weekday + 1;
     DateTime _startWeek = dateSelected.add(Duration(days: -dayWeek));
     DateTime _endWeek = dateSelected.add(Duration(days: 6 - dayWeek));
-    if (_testDate.isAfter(DateTime(_startWeek.year, _startWeek.month, _startWeek.day, 0, 0, 0)) &&
-        _testDate.isBefore(DateTime(_endWeek.year, _endWeek.month, _endWeek.day, 23, 59, 99))) {
+    if (_testDate.isAfter(DateTime(
+            _startWeek.year, _startWeek.month, _startWeek.day, 0, 0, 0)) &&
+        _testDate.isBefore(DateTime(
+            _endWeek.year, _endWeek.month, _endWeek.day, 23, 59, 99))) {
       return true;
     }
     return false;
@@ -591,8 +648,10 @@ class _RangeCalendarState extends State<RangeCalendar> {
     DateTime _testDate = DateTime(element.year, element.month, element.day);
     DateTime _initMonth = DateTime(dateSelected.year, dateSelected.month, 1);
     DateTime _endMonth = DateTime(dateSelected.year, dateSelected.month + 1, 0);
-    if (_testDate.isAfter(DateTime(_initMonth.year, _initMonth.month, _initMonth.day, 0, 0, 0)) &&
-        _testDate.isBefore(DateTime(_endMonth.year, _endMonth.month, _endMonth.day, 23, 59, 99))) {
+    if (_testDate.isAfter(DateTime(
+            _initMonth.year, _initMonth.month, _initMonth.day, 0, 0, 0)) &&
+        _testDate.isBefore(DateTime(
+            _endMonth.year, _endMonth.month, _endMonth.day, 23, 59, 99))) {
       return true;
     }
 

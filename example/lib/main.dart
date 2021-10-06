@@ -30,14 +30,33 @@ class _HomeViewState extends State<HomeView> {
     "Novembro",
     "Dezembro"
   ];
-  List<String> listLabelWeekday = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SAB"];
+  List<String> listLabelWeekday = [
+    "DOM",
+    "SEG",
+    "TER",
+    "QUA",
+    "QUI",
+    "SEX",
+    "SAB"
+  ];
 
   @override
   void initState() {
     setState(() {
-      events[DateTime(2021, 10, 3)] = [generateWidget("Futebol"), generateWidget("Volei"), generateWidget("Futsal"), generateWidget("Xadrez")];
-      events[DateTime(2021, 10, 4)] = [generateWidget("Flutter"), generateWidget("Dart")];
-      events[DateTime(2021, 10, 12)] = [generateWidget("Faculdade"), generateWidget("Trabalho")];
+      events[DateTime(2021, 10, 3)] = [
+        generateWidget("Futebol"),
+        generateWidget("Volei"),
+        generateWidget("Futsal"),
+        generateWidget("Xadrez")
+      ];
+      events[DateTime(2021, 10, 4)] = [
+        generateWidget("Flutter"),
+        generateWidget("Dart")
+      ];
+      events[DateTime(2021, 10, 12)] = [
+        generateWidget("Faculdade"),
+        generateWidget("Trabalho")
+      ];
     });
     super.initState();
   }

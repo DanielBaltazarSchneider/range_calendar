@@ -19,7 +19,7 @@ This will add a line like this to your package's pubspec.yaml (and run an implic
 
 ```yaml
 dependencies:
-  range_calendar: ^0.0.1-dev.1
+  range_calendar: ^0.0.x
 ```
 
 Alternatively, your editor might support or  `flutter pub get`. Check the docs for your editor to learn more.
@@ -40,8 +40,23 @@ RangeCalendar(
 )
 ```
 
-![Image](https://firebasestorage.googleapis.com/v0/b/range-calendar-ac38a.appspot.com/o/Screenshot_1633355046.png?alt=media&token=ae19abf4-b4a0-41be-88e8-d470213d3330)
+![Image](https://firebasestorage.googleapis.com/v0/b/range-calendar-ac38a.appspot.com/o/range_calendar.gif?alt=media&token=317ded7a-b936-4b66-8e59-74e81ab5fc6c)
 
-![Image](https://firebasestorage.googleapis.com/v0/b/range-calendar-ac38a.appspot.com/o/Screenshot_1633355050.png?alt=media&token=a0f7540a-3560-43ae-b884-9c2455f2ac03)
-
-![Image](https://firebasestorage.googleapis.com/v0/b/range-calendar-ac38a.appspot.com/o/Screenshot_1633355052.png?alt=media&token=184dbc79-5a3a-42ed-b11c-7f8b27d093d2)
+### Properties:
+```dart
+final Color backgroundColorCircleDaySelected;
+final Color colorTextSelected;
+final Color backgroundColorDayNotRanged;
+final Color backgroundColorDayIsRanged;
+final Color backgroundColorPointerEvent;
+final Function onDateSelected;
+final Function onTapRange;
+final Map<DateTime, List<Widget>> events;
+final Widget titleListEvents;
+final Color colorIconRangeSelected;
+final Color colorIconsRangeNotSelected;
+final List<String> listLabelWeekday;
+final Color colorLabelWeekday;
+final List<String> listOfMonthsOfTheYear;
+final bool viewYerOnMonthName;
+```
